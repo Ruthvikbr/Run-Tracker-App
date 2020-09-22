@@ -1,16 +1,16 @@
 package com.ruthvikbr.runtracker.ui
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ruthvikbr.runtracker.R
-import com.ruthvikbr.runtracker.db.RunDao
+import com.ruthvikbr.runtracker.utilities.Constants.ACTION_DISPLAY_TRACKING_FRAGMENT
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -19,8 +19,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
 
+        navigateToTrackingFragment(intent)
+
+        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
         navHostFragment.findNavController()
             .addOnDestinationChangedListener { _, destination, _ ->
                 when(destination.id){
@@ -29,5 +31,16 @@ class MainActivity : AppCompatActivity() {
                     else -> bottomNavigationView.visibility = View.GONE
                 }
             }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragment(intent)
+    }
+
+    private fun navigateToTrackingFragment(intent: Intent?){
+        if(intent?.action == ACTION_DISPLAY_TRACKING_FRAGMENT){
+            navHostFragment.findNavController().navigate(R.id.action_global_tracking_fragment)
+        }
     }
 }
