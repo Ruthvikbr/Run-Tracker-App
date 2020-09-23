@@ -69,10 +69,12 @@ class TrackingServices : LifecycleService() {
                     if (isFirstRun){
                         startForegroundService()
                         isFirstRun = false
+                    }else{
+                        startForegroundService()
                     }
                 }
                 ACTION_PAUSE_SERVICE -> {
-
+                    pauseService()
                 }
                 ACTION_STOP_SERVICE -> {
 
@@ -80,6 +82,10 @@ class TrackingServices : LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun pauseService(){
+        isTracking.postValue(false)
     }
 
     @SuppressLint("MissingPermission")
