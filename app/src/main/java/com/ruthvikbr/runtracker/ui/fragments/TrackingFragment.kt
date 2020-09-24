@@ -17,6 +17,7 @@ import com.ruthvikbr.runtracker.utilities.Constants.ACTION_START_OR_RESUME_SERVI
 import com.ruthvikbr.runtracker.utilities.Constants.MAP_ZOOM
 import com.ruthvikbr.runtracker.utilities.Constants.POLYLINE_COLOR
 import com.ruthvikbr.runtracker.utilities.Constants.POLYLINE_WIDTH
+import com.ruthvikbr.runtracker.utilities.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_tracking.*
 
@@ -29,6 +30,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var pathPoints = mutableListOf<polyline>()
 
     private var map: GoogleMap? = null
+
+    private var currentTimeInMillis = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,6 +78,13 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             pathPoints = it
             addLatestPolyLine()
             moveCameraToUserPosition()
+        })
+
+        TrackingServices.timeRunInMillis.observe(viewLifecycleOwner,{
+            currentTimeInMillis = it
+            val formattedTime =TrackingUtility.getFormattedStopWatchTime(currentTimeInMillis)
+            tvTimer.text = formattedTime
+
         })
     }
 

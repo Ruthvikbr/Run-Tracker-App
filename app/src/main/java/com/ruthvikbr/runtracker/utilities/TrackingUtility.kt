@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.os.Build
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.concurrent.TimeUnit
 
 object TrackingUtility {
     const val REQUEST_PERMISSION_CODE = 0
@@ -17,5 +18,30 @@ object TrackingUtility {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION)
         }
+
+    fun getFormattedStopWatchTime(ms: Long, includeMillis: Boolean = false) : String{
+        var milliSeconds = ms
+        val hours = TimeUnit.MILLISECONDS.toHours(milliSeconds)
+        milliSeconds -= TimeUnit.HOURS.toMillis(hours)
+
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds)
+        milliSeconds -= TimeUnit.MINUTES.toMillis(minutes)
+
+        val seconds = TimeUnit.MILLISECONDS.toMinutes(milliSeconds)
+
+
+        if(!includeMillis){
+            return "${if (hours < 10) "0" else ""}$hours:" +
+                    "${if (minutes < 10) "0" else ""}$minutes:" +
+                    "${if (seconds < 10) "0" else ""}$seconds:"
+        }
+        milliSeconds -= TimeUnit.SECONDS.toMillis(seconds)
+        milliSeconds /= 10
+        return "${if (hours < 10) "0" else ""}$hours:" +
+                "${if (minutes < 10) "0" else ""}$minutes:" +
+                "${if (seconds < 10) "0" else ""}$seconds:" +
+                "${if (milliSeconds < 10) "0" else ""}$milliSeconds:"
+
+    }
 
 }
