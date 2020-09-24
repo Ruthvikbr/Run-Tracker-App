@@ -114,10 +114,10 @@ class TrackingServices : LifecycleService() {
                 //post new lap time
                 timeRunInMillis.postValue(timeRun + lapTime)
 
-                if(timeRunInMillis.value!! > lastSecondTImeStamp + 1000L)
+                if(timeRunInMillis.value!! >= lastSecondTImeStamp + 1000L)
                 {
                     //increment after every second passes
-                    timeRunInSeconds.postValue(timeRunInMillis.value!! + 1)
+                    timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
                     lastSecondTImeStamp += 1000L
                 }
                 delay(TIMER_UPDATE_INTERVAL)

@@ -47,6 +47,25 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         subscribeToObservers()
     }
 
+
+
+    private fun subscribeToObservers(){
+        TrackingServices.isTracking.observe(viewLifecycleOwner,{
+            updateTracking(it)
+        })
+        TrackingServices.pathToPoints.observe(viewLifecycleOwner,{
+            pathPoints = it
+            addLatestPolyLine()
+            moveCameraToUserPosition()
+        })
+
+        TrackingServices.timeRunInMillis.observe(viewLifecycleOwner,{
+            currentTimeInMillis = it
+            val formattedTime =TrackingUtility.getFormattedStopWatchTime(currentTimeInMillis,true)
+            tvTimer.text = formattedTime
+        })
+    }
+
     private fun moveCameraToUserPosition(){
         if(pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()){
             map?.animateCamera(
@@ -70,26 +89,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
     }
 
-    private fun subscribeToObservers(){
-        TrackingServices.isTracking.observe(viewLifecycleOwner,{
-            updateTracking(it)
-        })
-        TrackingServices.pathToPoints.observe(viewLifecycleOwner,{
-            pathPoints = it
-            addLatestPolyLine()
-            moveCameraToUserPosition()
-        })
-
-        TrackingServices.timeRunInMillis.observe(viewLifecycleOwner,{
-            currentTimeInMillis = it
-            val formattedTime =TrackingUtility.getFormattedStopWatchTime(currentTimeInMillis)
-            tvTimer.text = formattedTime
-
-        })
-    }
-
-
-
     private fun toggleRun(){
         if(isTracking){
             sendActionToService(ACTION_PAUSE_SERVICE)
@@ -110,7 +109,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun addLatestPolyLine(){
         if(pathPoints.isNotEmpty() && pathPoints.last().size > 1){
-            val preLastLatLong = pathPoints.last()[pathPoints.size - 2]
+            val preLastLatLong = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
             val polylineOptions = PolylineOptions()
                 .color(POLYLINE_COLOR)
