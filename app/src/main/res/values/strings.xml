@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RunningApp</string>
+    <string-array name="filter_options">
+        <item>Date</item>
+        <item>Running Time</item>
+        <item>Distance</item>
+        <item>Average Speed</item>
+        <item>Calories Burned</item>
+    </string-array>
+    <string name="MAPS_API_KEY" templateMergeStrategy="preserve" translatable="false">YOUR_API_KEY_HERE</string>
+    <string name="settings">settings</string>
+    <string name="statistics">statistics</string>
+    <string name="runs">runs</string>
+</resources>
