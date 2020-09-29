@@ -2,13 +2,12 @@
 
 Run Tracker is a fitness based application that tracks all our runs and gives us statistics about our runs.
 
-## Attributes 
+## Built using
 
-1. MVVM
-2. Kotlin
-3. Architechtural Components 
-4. Foreground Service
-5. Dagger Hilt (Depenedency injection)
+- [Kotlin](https://kotlinlang.org/)
+- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture)
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
+- [Dagger-Hilt](https://dagger.dev/hilt/)
 
 ## Feature Screenshots 
 
